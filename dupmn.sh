@@ -100,6 +100,7 @@ function load_profile() {
 	EXEC_COIN_DAEMON="${prof[COIN_PATH]}$COIN_DAEMON"
 	EXEC_COIN_CLI="${prof[COIN_PATH]}$COIN_CLI"
 	FORCE_LISTEN="${prof[FORCE_LISTEN]}"
+	AUTO_IPV6="${prof[AUTO_IPV6]}"
 
 	if [[ $2 -eq 1 ]]; then
 		if [[ ! -f "$EXEC_COIN_DAEMON" ]]; then
@@ -461,6 +462,8 @@ function cmd_install() {
 	$(conf_set_value $new_folder/$COIN_CONFIG "rpcport"           $NEW_RPC  1)
 	$(conf_set_value $new_folder/$COIN_CONFIG "listen"            0         1)
 	$(conf_set_value $new_folder/$COIN_CONFIG "masternodeprivkey" $NEW_KEY  1)
+	$(conf_set_value $new_folder/$COIN_CONFIG "masternode" "1"  1)
+	$(conf_set_value $new_folder/$COIN_CONFIG "masternodeaddr" "$IP$([[ $mn_port ]] && echo :$mn_port)"  1)
 	[[ ! $(grep "addnode=127.0.0.1" $new_folder/$COIN_CONFIG) ]] && echo "addnode=127.0.0.1" >> $new_folder/$COIN_CONFIG
 
 	$(make_chmod_file /usr/bin/$COIN_CLI-0      "#!/bin/bash\n$EXEC_COIN_CLI \$@")
