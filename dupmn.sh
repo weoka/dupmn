@@ -463,6 +463,7 @@ function cmd_install() {
 	$(conf_set_value $new_folder/$COIN_CONFIG "listen"            0         1)
 	$(conf_set_value $new_folder/$COIN_CONFIG "masternodeprivkey" $NEW_KEY  1)
 	$(conf_set_value $new_folder/$COIN_CONFIG "masternode" "1"  1)
+	$(conf_set_value $new_folder/$COIN_CONFIG "bind" echo $IP 1)
 	$(conf_set_value $new_folder/$COIN_CONFIG "masternodeaddr" "$IP$([[ $mn_port ]] && echo :$mn_port)"  1)
 	[[ ! $(grep "addnode=127.0.0.1" $new_folder/$COIN_CONFIG) ]] && echo "addnode=127.0.0.1" >> $new_folder/$COIN_CONFIG
 
