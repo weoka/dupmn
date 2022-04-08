@@ -464,6 +464,7 @@ function cmd_install() {
 	$(conf_set_value $new_folder/$COIN_CONFIG "masternodeprivkey" $NEW_KEY  1)
 	$(conf_set_value $new_folder/$COIN_CONFIG "masternode" "1"  1)
 	$(conf_set_value $new_folder/$COIN_CONFIG "masternodeaddr" "$IP$([[ $mn_port ]] && echo :$mn_port)"  1)
+	$(conf_set_value $new_folder/$COIN_CONFIG "externalip" "$IP$([[ $mn_port ]] && echo :$mn_port)"  1)
 	[[ ! $(grep "addnode=127.0.0.1" $new_folder/$COIN_CONFIG) ]] && echo "addnode=127.0.0.1" >> $new_folder/$COIN_CONFIG
 
 	$(make_chmod_file /usr/bin/$COIN_CLI-0      "#!/bin/bash\n$EXEC_COIN_CLI \$@")
@@ -511,7 +512,6 @@ function cmd_install() {
 				main_ip=$([[ $main_ip ]] && echo "$main_ip" || echo $(conf_get_value $COIN_FOLDER/$COIN_CONFIG "externalip") | rev)
 				main_ip=$(echo $([[ $main_ip =~ ^[0-9]{1,}\:. ]] && echo $main_ip | cut -d ':' -f2- || echo $main_ip) | rev)
 				$(conf_set_value $COIN_FOLDER/$COIN_CONFIG "bind" $main_ip 1)
-				$(conf_set_value $COIN_FOLDER/$COIN_CONFIG "externalip" $main_ip 1)
 				if [[ $($EXEC_COIN_CLI stop 2> /dev/null) ]]; then
 					sleep 5
 					$EXEC_COIN_DAEMON -daemon &> /dev/null
